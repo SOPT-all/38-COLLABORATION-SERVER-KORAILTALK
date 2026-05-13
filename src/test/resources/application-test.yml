@@ -1,13 +1,16 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3307/korailtalk
+    # 테스트는 로컬 데모 데이터가 들어가는 korailtalk DB를 건드리지 않는다.
+    # 각 테스트가 필요한 데이터만 korailtalk_test에 직접 준비해서 사용한다.
+    url: jdbc:mysql://localhost:3307/korailtalk_test
     username: korail
     password: korail1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      # 테스트용 스키마는 테스트 실행 시 만들고 종료 시 정리한다.
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true

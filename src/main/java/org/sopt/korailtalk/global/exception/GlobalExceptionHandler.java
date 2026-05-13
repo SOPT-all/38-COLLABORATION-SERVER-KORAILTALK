@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     ) {
         List<ErrorResponse.FieldError> errors = toFieldErrors(e);
 
-        log.warn("[MethodArgumentNotValidException] {}", errors);
+        log.warn("[MethodArgumentNotValidException] {}", toFieldErrorLogs(errors));
 
         return toResponseEntity(ErrorCode.INVALID_INPUT_VALUE, errors);
     }
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleBindException(BindException e) {
         List<ErrorResponse.FieldError> errors = toFieldErrors(e);
 
-        log.warn("[BindException] {}", errors);
+        log.warn("[BindException] {}", toFieldErrorLogs(errors));
 
         return toResponseEntity(ErrorCode.INVALID_INPUT_VALUE, errors);
     }
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
                 ))
                 .toList();
 
-        log.warn("[ConstraintViolationException] {}", errors);
+        log.warn("[ConstraintViolationException] {}", toFieldErrorLogs(errors));
 
         return toResponseEntity(ErrorCode.INVALID_INPUT_VALUE, errors);
     }
@@ -89,7 +89,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException e
     ) {
-        log.warn("[HttpMessageNotReadableException] {}", e.getMessage());
+        log.warn("[HttpMessageNotReadableException] Request body is malformed or unreadable");
 
         return toResponseEntity(ErrorCode.MESSAGE_NOT_READABLE);
     }
@@ -168,5 +168,18 @@ public class GlobalExceptionHandler {
                         error.getDefaultMessage()
                 ))
                 .toList();
+    }
+
+    private List<FieldErrorLog> toFieldErrorLogs(List<ErrorResponse.FieldError> errors) {
+        return errors.stream()
+                .map(error -> new FieldErrorLog(error.field(), error.reason()))
+                .toList();
+    }
+
+    // 응답에는 노션 컨벤션에 맞춰 value를 유지하지만, 로그에는 사용자 입력값을 남기지 않는다.
+    private record FieldErrorLog(
+            String field,
+            String reason
+    ) {
     }
 }
