@@ -72,7 +72,14 @@ jobs:
 
             # 최대 60초 동안 헬스체크 (5초 간격 x 12회)
             for i in $(seq 1 12); do
-              if curl -sf http://localhost:8081/health; then
+              # if curl -sf http://localhost:8081/health; then
+              #   echo "Health check passed"
+              #   break
+              echo "=== Health check attempt $i ==="     
+              RESULT=$(curl -sv http://localhost:8081/health 2>&1)
+              echo "curl exit code: $?"
+              echo "curl result: $RESULT"
+              if echo "$RESULT" | grep -q '"status":"UP"'; then
                 echo "Health check passed"
                 break
               fi
