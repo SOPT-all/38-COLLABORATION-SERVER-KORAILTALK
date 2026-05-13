@@ -94,6 +94,7 @@ jobs:
             docker stop korailtalk-app 2>/dev/null || true
             docker rm korailtalk-app 2>/dev/null || true
             docker stop korailtalk-new && docker rm korailtalk-new
+            sleep 5
 
             # 새 컨테이너를 8080으로 재시작
             docker run -d --name korailtalk-app --network host \
