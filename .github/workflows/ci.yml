@@ -1,0 +1,55 @@
+name: CI
+
+# 언제 실행되는지 설정 -> main 브랜치로 PR 올릴 때마다 실행
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    # GitHub Actions 환경에 MySQL 띄우기 (테스트할 때 DB 필요하니까) -> docker-compose.yml이랑 똑같음
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: korailtalk
+          MYSQL_USER: korail
+          MYSQL_PASSWORD: korail1234
+        ports:
+          - 3307:3306
+
+        # MySQL이 완전히 뜰 때까지 기다리는 옵션 (없으면 오류 발생할수도 있음)
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      # 코드를 GitHub Actions 서버로 가져옴
+      - uses: actions/checkout@v4
+
+      # Java 21 설치
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      # build.gradle 의존성 캐시
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      # local 프로필로 빌드+테스트 실행
+      - run: chmod +x gradlew
+
+      - run: ./gradlew build --no-daemon
+        env:
+          SPRING_PROFILES_ACTIVE: local
