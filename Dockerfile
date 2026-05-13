@@ -26,4 +26,6 @@ USER appuser
 COPY --from=builder /workspace/build/libs/*.jar app.jar
 # 8080 포트 열고 실행
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
+
