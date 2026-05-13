@@ -64,10 +64,11 @@ jobs:
             # 새 컨테이너를 8081 포트에 먼저 실행
             docker run -d --name korailtalk-new --network host \
               -e SPRING_PROFILES_ACTIVE=prod \
+              -e SERVER_PORT=8081 \
               -e DB_URL="${{ secrets.DB_URL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-              -p 8081:8080 $IMAGE
+              $IMAGE
 
             # 최대 60초 동안 헬스체크 (5초 간격 x 12회)
             for i in $(seq 1 12); do
@@ -93,7 +94,7 @@ jobs:
               -e DB_URL="${{ secrets.DB_URL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-              -p 8080:8080 $IMAGE
+              $IMAGE
 
             # 안쓰는 이미지 정리
             docker image prune -f
