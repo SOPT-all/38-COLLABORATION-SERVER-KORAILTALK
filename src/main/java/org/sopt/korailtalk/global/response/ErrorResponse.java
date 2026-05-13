@@ -2,6 +2,7 @@ package org.sopt.korailtalk.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+import org.sopt.korailtalk.global.exception.ErrorCode;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ public record ErrorResponse(
         String message,
         List<FieldError> errors
 ) {
+
+    public static ErrorResponse of(ErrorCode errorCode) {
+        return of(errorCode.getCode(), errorCode.getMessage());
+    }
+
+    public static ErrorResponse of(ErrorCode errorCode, List<FieldError> errors) {
+        return of(errorCode.getCode(), errorCode.getMessage(), errors);
+    }
 
     public static ErrorResponse of(String code, String message) {
         return ErrorResponse.builder()
