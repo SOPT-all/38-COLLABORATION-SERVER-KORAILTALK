@@ -63,6 +63,7 @@ jobs:
             
             # 새 컨테이너를 8081 포트에 먼저 실행
             docker run -d --name korailtalk-new --network host \
+              -e JAVA_OPTS="-Xms128m -Xmx256m" \
               -e SPRING_PROFILES_ACTIVE=prod \
               -e SERVER_PORT=8081 \
               -e DB_URL="${{ secrets.DB_URL }}" \
@@ -70,12 +71,30 @@ jobs:
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               $IMAGE
 
+            sleep 3
+            echo "=== Container status ==="
+            docker ps -a | grep korailtalk-new
+            
+            echo "=== Container logs ==="
+            docker logs korailtalk-new
+            
+            echo "=== Memory status ==="
+            free -h
+
             # 최대 60초 동안 헬스체크 (5초 간격 x 12회)
             for i in $(seq 1 12); do
-              # if curl -sf http://localhost:8081/health; then
-              #   echo "Health check passed"
-              #   break
-              echo "=== Health check attempt $i ==="     
+              echo "=== Health check attempt $i ==="
+
+              # [추가] 컨테이너가 죽었는지 확인
+              if ! docker ps | grep -q korailtalk-new; then
+                echo "=== Container died! ==="
+                docker logs korailtalk-new
+                echo "=== OOM check ==="
+                dmesg | grep -i "oom\|killed" | tail -5
+                docker rm korailtalk-new
+                exit 1
+              fi
+              
               RESULT=$(curl -sv http://localhost:8081/health 2>&1)
               echo "curl exit code: $?"
               echo "curl result: $RESULT"
@@ -85,6 +104,11 @@ jobs:
               fi
               sleep 5
               if [ $i -eq 12 ]; then
+                # [추가] 최종 실패시 OOM 확인
+                echo "=== Final logs ==="
+                docker logs korailtalk-new
+                echo "=== OOM check ==="
+                dmesg | grep -i "oom\|killed" | tail -5
                 docker stop korailtalk-new && docker rm korailtalk-new
                 exit 1
               fi
