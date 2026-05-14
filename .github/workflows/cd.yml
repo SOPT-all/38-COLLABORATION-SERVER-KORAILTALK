@@ -98,6 +98,8 @@ jobs:
 
             # 작은 EC2에서는 Java가 기본값으로 메모리를 크게 잡으면 OOM이 날 수 있다.
             # heap/metaspace를 제한해 데모 서버가 예측 가능한 메모리 안에서 동작하게 한다.
+            # CD는 EC2에 Spring 애플리케이션 컨테이너만 띄운다.
+            # 운영 DB는 여기서 MySQL 컨테이너를 새로 만들지 않고 DB_URL이 가리키는 RDS에 연결한다.
             echo "=== CD: 새 애플리케이션 컨테이너 실행 시작 ==="
             echo "적용 JAVA_OPTS: ${{ env.JAVA_OPTS }}"
             docker run -d --name korailtalk-app --network host \
