@@ -32,10 +32,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # EC2가 t3.micro라면 amd64, t4g.micro라면 arm64 이미지가 필요하다.
-      # 현재 인스턴스 타입이 바뀔 수 있으므로 두 아키텍처를 모두 빌드해 어떤 micro 타입에서도 pull 가능하게 한다.
-      # 멀티 아키텍처 빌드는 GitHub Actions 시간이 조금 늘지만, EC2/RDS 크레딧 사용량에는 영향을 주지 않는다.
-      - name: 멀티 아키텍처 빌드 준비
+      # 현재 EC2는 ARM 기반 t4g.micro이므로 linux/arm64 이미지만 빌드한다.
+      # t3.micro 같은 x86 기반 EC2로 바꾸면 linux/amd64로 변경해야 한다.
+      # GitHub Actions 기본 러너는 amd64이므로 QEMU를 준비해 arm64 이미지를 빌드한다.
+      - name: ARM 아키텍처 빌드 준비
         uses: docker/setup-qemu-action@v3
 
       - name: Docker Buildx 준비
@@ -56,7 +56,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
