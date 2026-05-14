@@ -15,8 +15,9 @@
 # 동작 방식:
 #   1. CONFIRM_RESET=YES가 있는지 확인해서 실수 실행을 막습니다.
 #   2. DB_URL에서 host, port, database 이름을 파싱합니다.
-#   3. reservation_seats -> schedules -> train_types 순서로 기존 데이터를 삭제합니다.
-#   4. src/main/resources/data.sql을 다시 실행해 Google Sheet 기준 seed를 넣습니다.
+#   3. 기존 데모 테이블을 삭제합니다.
+#   4. src/main/resources/schema.sql로 테이블을 다시 만듭니다.
+#   5. src/main/resources/data.sql을 다시 실행해 Google Sheet 기준 seed를 넣습니다.
 #
 # 주의:
 #   - 데모 DB 전용입니다.
@@ -25,11 +26,18 @@
 
 set -euo pipefail
 
+SCHEMA_FILE="src/main/resources/schema.sql"
 SEED_FILE="src/main/resources/data.sql"
 
 if [ "${CONFIRM_RESET:-}" != "YES" ]; then
   echo "원격 DB 초기화는 파괴적인 작업입니다."
   echo "실행하려면 CONFIRM_RESET=YES 환경변수를 설정해주세요."
+  exit 1
+fi
+
+if [ ! -f "$SCHEMA_FILE" ]; then
+  echo "Schema 파일을 찾을 수 없습니다: $SCHEMA_FILE"
+  echo "프로젝트 루트에서 이 스크립트를 실행해주세요."
   exit 1
 fi
 
@@ -77,19 +85,26 @@ run_mysql() {
 
 echo "원격 데모 DB를 seed 상태로 초기화합니다."
 echo "대상 DB: $DB_HOST:$DB_PORT/$DB_NAME"
-echo "기존 데모 데이터를 삭제합니다..."
+echo "기존 데모 테이블을 삭제합니다..."
 
 if ! run_mysql <<'SQL'; then
-DELETE FROM reservation_seats;
-DELETE FROM schedules;
-DELETE FROM train_types;
-ALTER TABLE reservation_seats AUTO_INCREMENT = 1;
-ALTER TABLE schedules AUTO_INCREMENT = 1;
-ALTER TABLE train_types AUTO_INCREMENT = 1;
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS reservation_seats;
+DROP TABLE IF EXISTS schedules;
+DROP TABLE IF EXISTS train_types;
+SET FOREIGN_KEY_CHECKS = 1;
 SQL
   echo
-  echo "기존 데이터 삭제에 실패했습니다."
-  echo "테이블이 존재하는지, DB 계정에 DELETE/ALTER 권한이 있는지 확인해주세요."
+  echo "기존 데모 테이블 삭제에 실패했습니다."
+  echo "DB 계정에 DROP 권한이 있는지 확인해주세요."
+  exit 1
+fi
+
+echo "$SCHEMA_FILE 파일의 schema를 다시 적용합니다..."
+if ! run_mysql < "$SCHEMA_FILE"; then
+  echo
+  echo "Schema 적용에 실패했습니다."
+  echo "DB 계정에 CREATE/ALTER 권한이 있는지 확인해주세요."
   exit 1
 fi
 

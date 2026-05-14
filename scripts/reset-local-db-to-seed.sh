@@ -7,16 +7,16 @@
 #
 # 실행 전 준비:
 #   1. 로컬 MySQL 실행: docker compose up -d mysql
-#   2. Spring 애플리케이션을 한 번 실행해서 JPA/Hibernate가 테이블을 만들게 하기
 #
 # 동작 방식:
 #   1. korailtalk-mysql 컨테이너가 꺼져 있으면 docker compose로 실행합니다.
-#   2. reservation_seats -> schedules -> train_types 순서로 기존 데이터를 삭제합니다.
-#   3. src/main/resources/data.sql을 다시 실행해 Google Sheet 기준 seed를 넣습니다.
+#   2. 기존 데모 테이블을 삭제합니다.
+#   3. src/main/resources/schema.sql로 테이블을 다시 만듭니다.
+#   4. src/main/resources/data.sql을 다시 실행해 Google Sheet 기준 seed를 넣습니다.
 #
 # 주의:
 #   - 로컬 개발 DB 전용입니다.
-#   - 테이블이 아직 없다면 실패합니다. 이 경우 Spring 애플리케이션을 한 번 실행한 뒤 다시 시도하세요.
+#   - 기존 로컬 더미데이터는 모두 삭제됩니다.
 
 set -euo pipefail
 
@@ -24,7 +24,14 @@ CONTAINER_NAME="korailtalk-mysql"
 DATABASE_NAME="korailtalk"
 DATABASE_USER="korail"
 DATABASE_PASSWORD="korail1234"
+SCHEMA_FILE="src/main/resources/schema.sql"
 SEED_FILE="src/main/resources/data.sql"
+
+if [ ! -f "$SCHEMA_FILE" ]; then
+  echo "Schema 파일을 찾을 수 없습니다: $SCHEMA_FILE"
+  echo "프로젝트 루트에서 이 스크립트를 실행해주세요."
+  exit 1
+fi
 
 if [ ! -f "$SEED_FILE" ]; then
   echo "Seed 파일을 찾을 수 없습니다: $SEED_FILE"
@@ -51,19 +58,25 @@ if ! docker exec "$CONTAINER_NAME" mysqladmin ping -u"$DATABASE_USER" -p"$DATABA
   exit 1
 fi
 
-echo "기존 로컬 더미데이터를 삭제합니다..."
+echo "기존 로컬 데모 테이블을 삭제합니다..."
 if ! docker exec -i "$CONTAINER_NAME" mysql -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" <<'SQL'; then
-DELETE FROM reservation_seats;
-DELETE FROM schedules;
-DELETE FROM train_types;
-ALTER TABLE reservation_seats AUTO_INCREMENT = 1;
-ALTER TABLE schedules AUTO_INCREMENT = 1;
-ALTER TABLE train_types AUTO_INCREMENT = 1;
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS reservation_seats;
+DROP TABLE IF EXISTS schedules;
+DROP TABLE IF EXISTS train_types;
+SET FOREIGN_KEY_CHECKS = 1;
 SQL
   echo
-  echo "기존 데이터 삭제에 실패했습니다."
-  echo "가장 흔한 원인은 아직 테이블이 만들어지지 않은 경우입니다."
-  echo "local 프로필로 Spring 애플리케이션을 한 번 실행한 뒤 다시 시도해주세요."
+  echo "기존 로컬 데모 테이블 삭제에 실패했습니다."
+  echo "DB 계정에 DROP 권한이 있는지 확인해주세요."
+  exit 1
+fi
+
+echo "$SCHEMA_FILE 파일의 schema를 다시 적용합니다..."
+if ! docker exec -i "$CONTAINER_NAME" mysql -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" < "$SCHEMA_FILE"; then
+  echo
+  echo "Schema 적용에 실패했습니다."
+  echo "DB 계정에 CREATE/ALTER 권한이 있는지 확인해주세요."
   exit 1
 fi
 
