@@ -8,6 +8,7 @@ on:
 # 환경변수 선언 -> 이미지 이름을 변수로 선언
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/korailtalk-server
+  JAVA_OPTS: -Xms128m -Xmx256m -XX:MaxMetaspaceSize=128m -XX:+ExitOnOutOfMemoryError
 
 jobs:
   build-and-push:
@@ -25,6 +26,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # t4g.micro는 ARM 기반 EC2라서 linux/arm64 이미지가 필요하다.
+      # GitHub Actions 기본 러너는 amd64이므로 Buildx/QEMU를 준비해 EC2에서 바로 실행 가능한 이미지를 만든다.
+      - uses: docker/setup-qemu-action@v3
+
+      - uses: docker/setup-buildx-action@v3
+
       # 이미지 태그 생성 -> 어느 커밋이 배포됐는지 추적 가능, latest = 항상 최신 이미지 사용
       - id: meta
         uses: docker/metadata-action@v5
@@ -38,6 +45,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: .
+          platforms: linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
@@ -54,49 +62,55 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # 이미지 받아오기
-            IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/korailtalk-server:latest"
+            set -euo pipefail
+
+            # latest는 배포 시점에 다른 이미지로 바뀔 수 있어 문제 추적이 어렵다.
+            # 이번 GitHub Actions run에서 만든 커밋 SHA 태그를 배포해 어떤 코드가 올라갔는지 명확히 남긴다.
+            IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/korailtalk-server:${{ needs.build-and-push.outputs.image_tag }}"
+            echo "=== Deploy image ==="
+            echo "$IMAGE"
             docker pull $IMAGE
 
-            docker stop korailtalk-new 2>/dev/null || true
-            docker rm korailtalk-new 2>/dev/null || true
-            
-            # 새 컨테이너를 8081 포트에 먼저 실행
-            docker run -d --name korailtalk-new --network host \
-              -e JAVA_OPTS="-Xms128m -Xmx256m" \
+            # 데모 서버는 1GB 내외의 작은 EC2에서 실행된다.
+            # 완전 무중단보다 배포 중 메모리 사용량을 낮추는 것이 중요하므로 컨테이너를 하나만 띄운다.
+            docker stop korailtalk-app 2>/dev/null || true
+            docker rm korailtalk-app 2>/dev/null || true
+
+            echo "=== Memory status ==="
+            free -h
+
+            # 작은 EC2에서는 Java가 기본값으로 메모리를 크게 잡으면 OOM이 날 수 있다.
+            # heap/metaspace를 제한해 데모 서버가 예측 가능한 메모리 안에서 동작하게 한다.
+            docker run -d --name korailtalk-app --network host \
+              -e JAVA_OPTS="${{ env.JAVA_OPTS }}" \
               -e SPRING_PROFILES_ACTIVE=prod \
-              -e SERVER_PORT=8081 \
               -e DB_URL="${{ secrets.DB_URL }}" \
               -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               $IMAGE
 
-            sleep 3
             echo "=== Container status ==="
-            docker ps -a | grep korailtalk-new
-            
-            echo "=== Container logs ==="
-            docker logs korailtalk-new
-            
-            echo "=== Memory status ==="
-            free -h
+            docker ps -a | grep korailtalk-app
 
-            # 최대 60초 동안 헬스체크 (5초 간격 x 12회)
+            # 새 컨테이너가 DB 연결과 Spring 부팅을 끝낼 시간을 고려해 최대 60초 동안 확인한다.
+            # /health가 UP이면 iOS 데모 앱이 호출할 서버가 최소한 정상 부팅된 상태라고 판단한다.
             for i in $(seq 1 12); do
               echo "=== Health check attempt $i ==="
 
-              # [추가] 컨테이너가 죽었는지 확인
-              if ! docker ps | grep -q korailtalk-new; then
+              if ! docker ps | grep -q korailtalk-app; then
                 echo "=== Container died! ==="
-                docker logs korailtalk-new
+                docker logs korailtalk-app
                 echo "=== OOM check ==="
-                dmesg | grep -i "oom\|killed" | tail -5
-                docker rm korailtalk-new
+                dmesg | grep -i "oom\|killed" | tail -5 || true
+                docker rm korailtalk-app
                 exit 1
               fi
               
-              RESULT=$(curl -sv http://localhost:8081/health 2>&1)
-              echo "curl exit code: $?"
+              set +e
+              RESULT=$(curl -sv http://localhost:8080/health 2>&1)
+              CURL_EXIT_CODE=$?
+              set -e
+              echo "curl exit code: $CURL_EXIT_CODE"
               echo "curl result: $RESULT"
               if echo "$RESULT" | grep -q '"status":"UP"'; then
                 echo "Health check passed"
@@ -104,29 +118,13 @@ jobs:
               fi
               sleep 5
               if [ $i -eq 12 ]; then
-                # [추가] 최종 실패시 OOM 확인
                 echo "=== Final logs ==="
-                docker logs korailtalk-new
+                docker logs korailtalk-app
                 echo "=== OOM check ==="
-                dmesg | grep -i "oom\|killed" | tail -5
-                docker stop korailtalk-new && docker rm korailtalk-new
+                dmesg | grep -i "oom\|killed" | tail -5 || true
                 exit 1
               fi
             done
 
-            # 헬스체크 통과 후 기존 컨테이너(8080에서 실행중이던 구버전) 제거
-            docker stop korailtalk-app 2>/dev/null || true
-            docker rm korailtalk-app 2>/dev/null || true
-            docker stop korailtalk-new && docker rm korailtalk-new
-            sleep 5
-
-            # 새 컨테이너를 8080으로 재시작
-            docker run -d --name korailtalk-app --network host \
-              -e SPRING_PROFILES_ACTIVE=prod \
-              -e DB_URL="${{ secrets.DB_URL }}" \
-              -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
-              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-              $IMAGE
-
-            # 안쓰는 이미지 정리
+            # EC2 디스크가 작으므로 배포가 반복될 때 사용하지 않는 이미지 레이어를 정리한다.
             docker image prune -f
