@@ -76,6 +76,7 @@ fi
 
 run_mysql() {
   MYSQL_PWD="$DB_PASSWORD" mysql \
+    --default-character-set=utf8mb4 \
     --protocol=TCP \
     --host="$DB_HOST" \
     --port="$DB_PORT" \
