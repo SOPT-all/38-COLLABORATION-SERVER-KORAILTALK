@@ -5,28 +5,25 @@ LET'S SOPT 38기 합동세미나 서버 코레일톡 🚅
 
 로컬 MySQL을 Google Sheet 기준 seed 상태로 초기화할 때 사용합니다.
 
-처음 세팅할 때는 MySQL을 띄우고, Spring 애플리케이션을 한 번 실행해서 JPA가 테이블을 만들게 합니다.
+처음 세팅할 때는 MySQL을 띄운 뒤 reset 스크립트를 실행합니다.
 
 ```bash
 docker compose up -d mysql
-./gradlew bootRun
+bash scripts/reset-local-db-to-seed.sh
 ```
 
-테이블이 만들어진 뒤 아래 스크립트를 실행합니다.
+이미 MySQL 컨테이너가 실행 중이라면 다음부터는 reset 스크립트만 실행하면 됩니다.
 
 ```bash
 bash scripts/reset-local-db-to-seed.sh
 ```
 
-이미 테이블이 만들어져 있다면 다음부터는 reset 스크립트만 실행하면 됩니다.
-
-```bash
-bash scripts/reset-local-db-to-seed.sh
-```
+Spring 애플리케이션 실행은 seed 적용 뒤에 하면 됩니다.
 
 동작 방식:
 
-- `reservation_seats -> schedules -> train_types` 순서로 기존 데이터를 삭제합니다.
+- 기존 데모 테이블을 삭제합니다.
+- `src/main/resources/schema.sql`을 실행해서 테이블을 다시 만듭니다.
 - `src/main/resources/data.sql`을 실행해서 seed 데이터를 다시 넣습니다.
 - 로컬 Docker MySQL 접속 정보는 `docker-compose.yml`에 공개된 개발용 값과 동일합니다.
 
@@ -45,6 +42,6 @@ bash scripts/reset-local-db-to-seed.sh
 
 주의할 점:
 
-- 이 작업은 데모 DB 데이터를 삭제한 뒤 seed를 다시 넣습니다.
+- 이 작업은 데모 DB 테이블을 삭제한 뒤 schema와 seed를 다시 넣습니다.
 - 실제 운영 데이터가 들어 있는 DB에는 실행하면 안 됩니다.
-- 테이블 구조가 `src/main/resources/data.sql`의 컬럼과 맞아야 합니다.
+- 원격 배포는 `prod` 프로필에서 `ddl-auto=validate`로 실행되므로, 새 엔티티가 추가된 뒤에는 이 workflow로 DB schema를 먼저 맞춰야 합니다.

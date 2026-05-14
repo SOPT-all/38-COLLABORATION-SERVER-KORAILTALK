@@ -34,3 +34,12 @@ spring:
         format_sql: true
 
     show-sql: false
+
+  sql:
+    init:
+      # prod는 Hibernate schema 자동 변경을 허용하지 않고 validate로 검증한다.
+      # 대신 최초 배포나 데모 DB reset 직후 테이블이 없을 수 있으므로 schema.sql만 먼저 실행한다.
+      mode: always
+      schema-locations: classpath:schema.sql
+      # data.sql은 seed reset workflow에서만 실행한다. 앱 부팅 때마다 실행하면 중복 삽입이 발생한다.
+      data-locations: []
