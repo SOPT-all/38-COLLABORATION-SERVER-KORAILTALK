@@ -1,0 +1,38 @@
+name: Reset Demo DB
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: '데모 DB를 seed 상태로 초기화하려면 RESET을 입력하세요.'
+        required: true
+        type: string
+
+jobs:
+  reset-demo-db:
+    name: 데모 DB seed 초기화
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 실행 확인
+        run: |
+          if [ "${{ inputs.confirm }}" != "RESET" ]; then
+            echo "입력값이 RESET이 아니어서 중단합니다."
+            exit 1
+          fi
+
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: MySQL 클라이언트 설치
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+
+      - name: 데모 DB를 seed 상태로 초기화
+        run: bash scripts/reset-demo-db-to-seed.sh
+        env:
+          CONFIRM_RESET: YES
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
