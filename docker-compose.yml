@@ -1,3 +1,5 @@
+name: korailtalk-server
+
 services:
   mysql:
     image: mysql:8.4
@@ -11,6 +13,9 @@ services:
       MYSQL_PASSWORD: korail1234
     volumes:
       - mysql_data:/var/lib/mysql
+      # MySQL 공식 이미지가 처음 초기화될 때 아래 SQL 파일들을 자동 실행한다.
+      # 로컬 실행용 DB(korailtalk)와 테스트 전용 DB(korailtalk_test)를 함께 준비한다.
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
 
 volumes:
   mysql_data:
@@ -26,6 +31,8 @@ volumes:
 #    포트: 3307
 #    사용자명: korail
 #    비밀번호: korail1234
+#    로컬 실행 DB: korailtalk
+#    테스트 전용 DB: korailtalk_test
 # 5. 컨테이너를 중지하려면 다음 명령어 실행
 #    docker-compose down
 # 6. 데이터 유지 및 삭제
