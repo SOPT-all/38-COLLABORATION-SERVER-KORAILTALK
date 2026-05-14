@@ -11,8 +11,16 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "reservation_seats")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        name = "reservation_seats",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_reservation_seat_schedule_id_seat_number",
+                        columnNames = {"schedule_id", "seat_number"}
+                )
+        }
+)
 public class ReservationSeat {
 
     @Id
