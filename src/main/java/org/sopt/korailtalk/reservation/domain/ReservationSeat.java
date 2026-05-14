@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sopt.korailtalk.schedule.domain.Schedule;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
+@EntityListeners(AuditingEntityListener.class)
 public class ReservationSeat {
 
     @Id
