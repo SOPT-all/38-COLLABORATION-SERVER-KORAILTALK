@@ -15,7 +15,7 @@ public class TrainType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "train_name", nullable = false, length = 100)
+    @Column(name = "train_name", nullable = false, length = 100, unique = true)
     private String trainName;
 
     @Column(name = "general_price", nullable = false)
