@@ -22,6 +22,9 @@ public class Schedule extends BaseTimeEntity {
     @JoinColumn(name = "train_type_id", nullable = false)
     private TrainType trainType;
 
+    @Column(name = "train_name", nullable = false, length = 100)
+    private String trainName;
+
     @Column(name = "departure_time", nullable = false)
     private LocalDateTime departureTime;
 
@@ -30,11 +33,13 @@ public class Schedule extends BaseTimeEntity {
 
     public Schedule(
             TrainType trainType,
+            String trainName,
             LocalDateTime departureTime,
             LocalDateTime arrivalTime
 
     ) {
         this.trainType = trainType;
+        this.trainName = trainName;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
     }
