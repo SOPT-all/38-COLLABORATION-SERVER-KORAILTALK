@@ -1,6 +1,7 @@
 # 로컬 개발용 MySQL이다.
 # 개발자가 자기 PC에서 local 프로필로 앱을 실행할 때만 사용한다.
 # CI는 GitHub Actions 안에서 별도 임시 MySQL을 띄우고, 운영 CD는 RDS에 연결하므로 이 파일을 실행하지 않는다.
+name: korailtalk-server
 services:
   mysql:
     image: mysql:8.4
@@ -29,6 +30,7 @@ volumes:
 #    포트: 3307
 #    사용자명: korail
 #    비밀번호: korail1234
+#    로컬 실행 DB: korailtalk
 # 5. 컨테이너를 중지하려면 다음 명령어 실행
 #    docker-compose down
 # 6. 데이터 유지 및 삭제
