@@ -16,7 +16,8 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      # RDS micro 인스턴스는 메모리가 작기 때문에 DB 커넥션을 많이 유지하면 부담이 된다.
+      # RDS가 db.t3.micro인지 db.t4g.micro인지는 애플리케이션 연결 방식에는 영향을 주지 않는다.
+      # 둘 다 micro 인스턴스라 메모리가 작기 때문에 DB 커넥션을 많이 유지하면 부담이 된다.
       # 데모 서버의 동시 사용자는 적으므로 최대 커넥션을 3개로 제한한다.
       maximum-pool-size: 3
       minimum-idle: 1
