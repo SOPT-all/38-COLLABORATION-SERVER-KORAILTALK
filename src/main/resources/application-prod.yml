@@ -1,9 +1,29 @@
+server:
+  tomcat:
+    threads:
+      # iOS 개발자 3명이 데모 API를 붙여보는 서버라서 많은 요청 처리 스레드가 필요하지 않다.
+      # 작은 EC2에서는 스레드가 많을수록 메모리 사용량도 늘어나므로 최대 스레드를 낮게 제한한다.
+      max: 30
+      min-spare: 5
+    # 서버가 순간적으로 처리할 수 있는 요청을 넘어설 때 대기시킬 요청 수이다.
+    # 데모 환경에서는 긴 대기열보다 빠른 실패가 원인 파악에 유리하므로 작게 둔다.
+    accept-count: 20
+
 spring:
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      # RDS가 db.t3.micro인지 db.t4g.micro인지는 애플리케이션 연결 방식에는 영향을 주지 않는다.
+      # 둘 다 micro 인스턴스라 메모리가 작기 때문에 DB 커넥션을 많이 유지하면 부담이 된다.
+      # 데모 서버의 동시 사용자는 적으므로 최대 커넥션을 3개로 제한한다.
+      maximum-pool-size: 3
+      minimum-idle: 1
+      # DB 연결이 오래 지연되면 배포나 데모 중 원인 파악이 늦어진다.
+      # 3초 안에 연결하지 못하면 빠르게 실패시켜 로그에서 문제를 확인한다.
+      connection-timeout: 3000
 
   jpa:
     hibernate:
