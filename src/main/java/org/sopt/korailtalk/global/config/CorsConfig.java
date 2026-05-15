@@ -13,8 +13,8 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:3000",
                         "http://localhost:5173",
-                        "http://localhost:8080" //,
-                        //"https:// 추가 할도메인"
+                        "http://localhost:8080",
+                        "https://38-sopt-korailtalk.p-e.kr"
                 )
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
