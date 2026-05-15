@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.sopt.korailtalk.global.domain.BaseTimeEntity;
 import org.sopt.korailtalk.schedule.domain.Schedule;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -22,8 +19,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
-@EntityListeners(AuditingEntityListener.class)
-public class ReservationSeat {
+public class ReservationSeat extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +34,6 @@ public class ReservationSeat {
 
     @Column(name = "seat_number", nullable = false, length = 20)
     private String seatNumber;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     public ReservationSeat(
             Schedule schedule,
