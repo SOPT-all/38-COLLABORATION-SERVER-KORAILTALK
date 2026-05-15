@@ -1,8 +1,6 @@
 package org.sopt.korailtalk.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.korailtalk.global.exception.BusinessException;
-import org.sopt.korailtalk.global.exception.ErrorCode;
 import org.sopt.korailtalk.reservation.domain.ReservationSeat;
 import org.sopt.korailtalk.reservation.repository.ReservationSeatRepository;
 import org.sopt.korailtalk.schedule.domain.Schedule;
@@ -31,10 +29,6 @@ public class ScheduleService {
     // 열차 일정 목록 조회
     public ScheduleListResponse getSchedules() {
         List<Schedule> schedules = scheduleRepository.findAllByOrderByDepartureTimeAsc();
-
-        if (schedules.isEmpty()) {
-            throw new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND);
-        }
 
         return new ScheduleListResponse(
                 schedules.stream()

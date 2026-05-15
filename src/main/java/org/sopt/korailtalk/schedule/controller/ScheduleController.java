@@ -1,13 +1,9 @@
 package org.sopt.korailtalk.schedule.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.sopt.korailtalk.global.response.ErrorResponse;
 import org.sopt.korailtalk.global.response.SuccessResponse;
 import org.sopt.korailtalk.schedule.dto.response.ScheduleListResponse;
 import org.sopt.korailtalk.schedule.service.ScheduleService;
@@ -26,22 +22,13 @@ public class ScheduleController {
 
     @Operation(
             summary = "열차 일정 목록 조회",
-            description = "열차 일정 목록을 출발 시간 오름차순으로 조회합니다."
+            description = "열차 일정 목록을 출발 시간 오름차순으로 조회합니다. 조회 가능한 열차 일정이 없으면 빈 목록을 반환합니다."
     )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "열차 일정 목록 조회 성공",
-                    useReturnTypeSchema = true
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "조회 가능한 열차 일정이 없는 경우",
-                    content = @Content(
-                            schema = @Schema(implementation = ErrorResponse.class)
-                    )
-            )
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "열차 일정 목록 조회 성공",
+            useReturnTypeSchema = true
+    )
     @GetMapping
     public ResponseEntity<SuccessResponse<ScheduleListResponse>> getSchedules() {
         ScheduleListResponse response = scheduleService.getSchedules();
