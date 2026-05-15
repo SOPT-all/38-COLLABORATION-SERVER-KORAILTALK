@@ -1,6 +1,7 @@
 package org.sopt.korailtalk.schedule.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,20 @@ public class ScheduleController {
         return ResponseEntity.ok(SuccessResponse.of("열차 일정 목록 조회에 성공했습니다.", response));
     }
 
+    @Operation(
+            summary = "열차 좌석 조회",
+            description = "schedule 별 좌석의 reserved_seat, outlet_seat을 조회합니다."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "조회 성공"
+    )
     @GetMapping("/{scheduleId}/seats")
     public ResponseEntity<SeatListResponse> getSeats(
+            @Parameter(
+                    description = "열차 일정 ID",
+                    example = "1"
+            )
             @PathVariable Long scheduleId
     ) {
         SeatListResponse response = seatService.getSeats(scheduleId);
