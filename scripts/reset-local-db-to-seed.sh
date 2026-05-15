@@ -59,7 +59,7 @@ if ! docker exec "$CONTAINER_NAME" mysqladmin ping -u"$DATABASE_USER" -p"$DATABA
 fi
 
 echo "기존 로컬 데모 테이블을 삭제합니다..."
-if ! docker exec -i "$CONTAINER_NAME" mysql -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" <<'SQL'; then
+if ! docker exec -i "$CONTAINER_NAME" mysql --default-character-set=utf8mb4 -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" <<'SQL'; then
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS reservation_seats;
 DROP TABLE IF EXISTS schedules;
@@ -73,7 +73,7 @@ SQL
 fi
 
 echo "$SCHEMA_FILE 파일의 schema를 다시 적용합니다..."
-if ! docker exec -i "$CONTAINER_NAME" mysql -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" < "$SCHEMA_FILE"; then
+if ! docker exec -i "$CONTAINER_NAME" mysql --default-character-set=utf8mb4 -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" < "$SCHEMA_FILE"; then
   echo
   echo "Schema 적용에 실패했습니다."
   echo "DB 계정에 CREATE/ALTER 권한이 있는지 확인해주세요."
@@ -81,7 +81,7 @@ if ! docker exec -i "$CONTAINER_NAME" mysql -u"$DATABASE_USER" -p"$DATABASE_PASS
 fi
 
 echo "$SEED_FILE 파일의 seed 데이터를 다시 적용합니다..."
-if ! docker exec -i "$CONTAINER_NAME" mysql -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" < "$SEED_FILE"; then
+if ! docker exec -i "$CONTAINER_NAME" mysql --default-character-set=utf8mb4 -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" < "$SEED_FILE"; then
   echo
   echo "Seed 적용에 실패했습니다."
   echo "테이블 구조가 data.sql의 컬럼과 일치하는지 확인해주세요."
