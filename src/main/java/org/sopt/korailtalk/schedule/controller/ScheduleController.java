@@ -47,10 +47,11 @@ public class ScheduleController {
     )
     @ApiResponse(
             responseCode = "200",
-            description = "조회 성공"
+            description = "열차 좌석 조회 성공",
+            useReturnTypeSchema = true
     )
-    @GetMapping("/{scheduleId}/seats")
-    public ResponseEntity<SeatListResponse> getSeats(
+    @GetMapping("/{scheduleId}/seats")  // SuccessResponse 로 응답 통일
+    public ResponseEntity<SuccessResponse<SeatListResponse>> getSeats(
             @Parameter(
                     description = "열차 일정 ID",
                     example = "1"
@@ -58,6 +59,7 @@ public class ScheduleController {
             @PathVariable Long scheduleId
     ) {
         SeatListResponse response = seatService.getSeats(scheduleId);
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(SuccessResponse.of("열차 좌석 조회에 성공했습니다.", response));
     }
 }

@@ -9,12 +9,10 @@ import java.util.List;
 
 public interface ReservationSeatRepository extends JpaRepository<ReservationSeat, Long> {
 
-    List<ReservationSeat> findAllByScheduleId(Long scheduleId);
-
     @Query("""
         select rs.seatNumber
         from ReservationSeat rs
         where rs.schedule.id = :scheduleId
     """)
-    List<Integer> findReservedSeatNumbersByScheduleId(@Param("scheduleId")Long scheduleId);
+    List<Integer> findReservedSeatNumbersByScheduleId(@Param("scheduleId") Long scheduleId);
 }

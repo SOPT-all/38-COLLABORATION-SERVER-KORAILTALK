@@ -43,6 +43,8 @@ public class SeatService {
         }
         return Arrays.stream(outletSeatNumbers.split(","))
                 .map(String::trim)
+                // 데이터에 마지막 쉼표나 연속 쉼표가 있어도 빈 문자열은 좌석 번호로 보지 않는다.
+                .filter(seatNumber -> !seatNumber.isBlank())
                 .map(Integer::valueOf)
                 .toList();
     }
