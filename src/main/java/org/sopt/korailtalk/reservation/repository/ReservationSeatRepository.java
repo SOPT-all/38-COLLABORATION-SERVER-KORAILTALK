@@ -16,5 +16,5 @@ public interface ReservationSeatRepository extends JpaRepository<ReservationSeat
         from ReservationSeat rs
         where rs.schedule.id = :scheduleId
     """)
-    List<String> findReservedSeatNumbersByScheduleId(@Param("scheduleId")Long scheduleId);
+    List<Integer> findReservedSeatNumbersByScheduleId(@Param("scheduleId")Long scheduleId);
 }
