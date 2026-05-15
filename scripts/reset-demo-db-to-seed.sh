@@ -2,7 +2,8 @@
 
 # 원격 데모 DB를 seed 상태로 초기화하는 스크립트입니다.
 #
-# GitHub Actions에서 실행할 때는 GitHub Secrets의 값을 환경변수로 전달합니다.
+# GitHub Actions에서 실행할 때는 EC2에 접속한 뒤 GitHub Secrets의 값을
+# 환경변수로 전달합니다.
 #
 # 필요한 환경변수:
 #   CONFIRM_RESET=YES
@@ -23,6 +24,7 @@
 #   - 데모 DB 전용입니다.
 #   - 실제 운영 데이터가 들어 있는 DB에는 실행하면 안 됩니다.
 #   - 이 스크립트는 mysql CLI가 설치된 환경에서 실행됩니다.
+#   - workflow는 EC2에 mysql CLI가 없으면 Docker mysql 클라이언트로 실행합니다.
 
 set -euo pipefail
 
@@ -49,13 +51,34 @@ fi
 
 if ! command -v mysql >/dev/null 2>&1; then
   echo "mysql CLI를 찾을 수 없습니다."
-  echo "GitHub Actions에서는 workflow가 mysql-client를 설치한 뒤 이 스크립트를 실행합니다."
+  echo "EC2에 mysql CLI를 설치하거나 Docker mysql 클라이언트로 이 스크립트를 실행해주세요."
   exit 1
 fi
 
 DB_URL="${DB_URL:?DB_URL 환경변수가 필요합니다.}"
 DB_USERNAME="${DB_USERNAME:?DB_USERNAME 환경변수가 필요합니다.}"
 DB_PASSWORD="${DB_PASSWORD:?DB_PASSWORD 환경변수가 필요합니다.}"
+
+strip_line_breaks() {
+  local value="$1"
+  value="${value//$'\r'/}"
+  value="${value//$'\n'/}"
+  printf '%s' "$value"
+}
+
+trim_secret() {
+  local value
+  value="$(strip_line_breaks "$1")"
+  value="${value#"${value%%[![:space:]]*}"}"
+  value="${value%"${value##*[![:space:]]}"}"
+  printf '%s' "$value"
+}
+
+# GitHub Secrets에 값이 붙여넣기될 때 끝 줄바꿈이 섞이면 DB 이름에
+# 그대로 포함될 수 있어 JDBC URL 파싱 전에 정리합니다.
+DB_URL="$(trim_secret "$DB_URL")"
+DB_USERNAME="$(trim_secret "$DB_USERNAME")"
+DB_PASSWORD="$(strip_line_breaks "$DB_PASSWORD")"
 
 JDBC_URL="${DB_URL#jdbc:mysql://}"
 JDBC_URL="${JDBC_URL%%\?*}"
@@ -80,6 +103,7 @@ run_mysql() {
     --protocol=TCP \
     --host="$DB_HOST" \
     --port="$DB_PORT" \
+    --connect-timeout=10 \
     --user="$DB_USERNAME" \
     "$DB_NAME"
 }
@@ -97,7 +121,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 SQL
   echo
   echo "기존 데모 테이블 삭제에 실패했습니다."
-  echo "DB 계정에 DROP 권한이 있는지 확인해주세요."
+  echo "DB 연결 정보, 네트워크 접근, DB 계정의 DROP 권한을 확인해주세요."
   exit 1
 fi
 
@@ -105,7 +129,7 @@ echo "$SCHEMA_FILE 파일의 schema를 다시 적용합니다..."
 if ! run_mysql < "$SCHEMA_FILE"; then
   echo
   echo "Schema 적용에 실패했습니다."
-  echo "DB 계정에 CREATE/ALTER 권한이 있는지 확인해주세요."
+  echo "DB 연결 정보, 네트워크 접근, DB 계정의 CREATE/ALTER 권한을 확인해주세요."
   exit 1
 fi
 
@@ -113,7 +137,7 @@ echo "$SEED_FILE 파일의 seed 데이터를 다시 적용합니다..."
 if ! run_mysql < "$SEED_FILE"; then
   echo
   echo "Seed 적용에 실패했습니다."
-  echo "테이블 구조가 data.sql의 컬럼과 일치하는지 확인해주세요."
+  echo "DB 연결 정보, 네트워크 접근, 테이블 구조와 data.sql 컬럼 일치 여부를 확인해주세요."
   exit 1
 fi
 

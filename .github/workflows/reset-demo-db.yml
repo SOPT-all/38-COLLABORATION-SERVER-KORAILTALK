@@ -12,6 +12,8 @@ jobs:
   reset-demo-db:
     name: 데모 DB seed 초기화
     runs-on: ubuntu-latest
+    env:
+      REMOTE_RESET_DIR: /tmp/korailtalk-db-reset-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
       - name: 실행 확인
@@ -24,15 +26,54 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
 
-      - name: MySQL 클라이언트 설치
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y mysql-client
+      - name: reset 파일을 EC2로 복사
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "scripts/reset-demo-db-to-seed.sh,src/main/resources/schema.sql,src/main/resources/data.sql"
+          target: ${{ env.REMOTE_RESET_DIR }}
 
-      - name: 데모 DB를 seed 상태로 초기화
-        run: bash scripts/reset-demo-db-to-seed.sh
+      - name: EC2 경유로 데모 DB를 seed 상태로 초기화
+        uses: appleboy/ssh-action@v1.0.3
         env:
+          REMOTE_RESET_DIR: ${{ env.REMOTE_RESET_DIR }}
           CONFIRM_RESET: YES
           DB_URL: ${{ secrets.DB_URL }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          envs: REMOTE_RESET_DIR,CONFIRM_RESET,DB_URL,DB_USERNAME,DB_PASSWORD
+          script: |
+            set -euo pipefail
+
+            cd "$REMOTE_RESET_DIR"
+
+            cleanup() {
+              cd /tmp
+              rm -rf "$REMOTE_RESET_DIR"
+            }
+            trap cleanup EXIT
+
+            if command -v mysql >/dev/null 2>&1; then
+              echo "EC2의 mysql CLI로 데모 DB를 초기화합니다."
+              bash scripts/reset-demo-db-to-seed.sh
+            elif command -v docker >/dev/null 2>&1; then
+              echo "EC2에 mysql CLI가 없어 Docker mysql 클라이언트로 데모 DB를 초기화합니다."
+              docker run --rm --network host \
+                -v "$REMOTE_RESET_DIR:/workspace" \
+                -w /workspace \
+                -e CONFIRM_RESET \
+                -e DB_URL \
+                -e DB_USERNAME \
+                -e DB_PASSWORD \
+                mysql:8.4 \
+                bash scripts/reset-demo-db-to-seed.sh
+            else
+              echo "EC2에 mysql CLI 또는 Docker가 필요합니다."
+              exit 1
+            fi

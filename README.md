@@ -38,7 +38,7 @@ Spring 애플리케이션 실행은 seed 적용 뒤에 하면 됩니다.
 3. `Run workflow`를 누릅니다.
 4. 입력값에 `RESET`을 입력하고 실행합니다.
 
-이 workflow는 GitHub Secrets에 있는 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`를 사용합니다. 원격 DB 접속 정보는 코드에 하드코딩하지 않습니다.
+이 workflow는 GitHub Secrets에 있는 `EC2_HOST`, `EC2_USERNAME`, `EC2_SSH_KEY`로 EC2에 접속한 뒤, EC2에서 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`를 사용해 원격 DB를 초기화합니다. 원격 DB 접속 정보는 코드에 하드코딩하지 않습니다.
 
 주의할 점:
 
