@@ -9,6 +9,7 @@ import org.sopt.korailtalk.schedule.dto.response.ScheduleListResponse;
 import org.sopt.korailtalk.schedule.service.ScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final SeatService seatService;
 
     @Operation(
             summary = "열차 일정 목록 조회",
@@ -34,5 +36,13 @@ public class ScheduleController {
         ScheduleListResponse response = scheduleService.getSchedules();
 
         return ResponseEntity.ok(SuccessResponse.of("열차 일정 목록 조회에 성공했습니다.", response));
+    }
+
+    @GetMapping("/{scheduleId}/seats")
+    public ResponseEntity<SeatListResponse> getSeats(
+            @PathVariable Long scheduleId
+    ) {
+        SeatListResponse response = seatService.getSeats(scheduleId);
+        return ResponseEntity.ok(response);
     }
 }
