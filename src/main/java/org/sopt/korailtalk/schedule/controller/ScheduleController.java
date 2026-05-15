@@ -50,7 +50,7 @@ public class ScheduleController {
             description = "열차 좌석 조회 성공",
             useReturnTypeSchema = true
     )
-    @GetMapping("/{scheduleId}/seats")  // SuccessResponse 로 응답 통일
+    @GetMapping("/{scheduleId}/seats")
     public ResponseEntity<SuccessResponse<SeatListResponse>> getSeats(
             @Parameter(
                     description = "열차 일정 ID",

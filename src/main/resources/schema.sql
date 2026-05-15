@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS reservation_seats (
     user_id BIGINT NOT NULL,
     seat_number INT NOT NULL,
     created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT uk_reservation_seat_schedule_id_seat_number
         UNIQUE (schedule_id, seat_number),
