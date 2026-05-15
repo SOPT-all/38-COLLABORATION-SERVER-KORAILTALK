@@ -13,7 +13,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +36,11 @@ public class ReservationService {
                 .stream()
                 .sorted()
                 .toList();
-        List<String> seatNumberStrings = sortedSeatNumbers.stream()
-                .map(String::valueOf)
-                .toList();
 
-        validateSeatAvailability(schedule.getId(), seatNumberStrings);
+        validateSeatAvailability(schedule.getId(), sortedSeatNumbers);
 
         // 저장할 예약의 리스트를 만든다.
-        List<ReservationSeat> reservationSeats = seatNumberStrings.stream()
+        List<ReservationSeat> reservationSeats = sortedSeatNumbers.stream()
                 .map(seatNumber -> new ReservationSeat(schedule, request.userId(), seatNumber))
                 .toList();
 
@@ -57,9 +56,16 @@ public class ReservationService {
     }
 
     // 좌석 검증
-    private void validateSeatAvailability(Long scheduleId, List<String> seatNumbers) {
-        // 이미 예약된 좌석이 하나라도 있으면 전체 요청을 실패시킨다.
-        if (!reservationSeatRepository.findAllByScheduleIdAndSeatNumberIn(scheduleId, seatNumbers).isEmpty()) {
+    private void validateSeatAvailability(Long scheduleId, List<Integer> seatNumbers) {
+        Set<Integer> reservedSeatNumbers = new HashSet<>(
+                reservationSeatRepository.findReservedSeatNumbersByScheduleId(scheduleId)
+        );
+
+        // 요청 좌석 중 이미 예약된 좌석이 하나라도 있으면 전체 예약을 실패시킨다.
+        boolean hasAlreadyReservedSeat = seatNumbers.stream()
+                .anyMatch(reservedSeatNumbers::contains);
+
+        if (hasAlreadyReservedSeat) {
             throw new BusinessException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
     }

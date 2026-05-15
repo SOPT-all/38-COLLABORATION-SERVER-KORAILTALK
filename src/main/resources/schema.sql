@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS reservation_seats (
     id BIGINT NOT NULL AUTO_INCREMENT,
     schedule_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
-    seat_number VARCHAR(20) NOT NULL,
+    seat_number INT NOT NULL,
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
     PRIMARY KEY (id),

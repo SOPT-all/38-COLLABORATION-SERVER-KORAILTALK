@@ -1,7 +1,6 @@
 package org.sopt.korailtalk.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.korailtalk.reservation.domain.ReservationSeat;
 import org.sopt.korailtalk.reservation.repository.ReservationSeatRepository;
 import org.sopt.korailtalk.schedule.domain.Schedule;
 import org.sopt.korailtalk.schedule.domain.TrainType;
@@ -42,14 +41,12 @@ public class ScheduleService {
 
         TrainType trainType = schedule.getTrainType();
 
-        // 해당 일정에 예약된 좌석 번호를 조회하여 Set<Integer>로 변환한다. 예약된 좌석 번호는 문자열로 저장되어 있으므로 Integer로 변환한다.
-        Set<Integer> reservedSeats = reservationSeatRepository.findAllByScheduleId(schedule.getId())
+        // 해당 일정에 이미 예약된 좌석 번호만 조회한다.
+        Set<Integer> reservedSeats = reservationSeatRepository.findReservedSeatNumbersByScheduleId(schedule.getId())
                 .stream()
-                .map(ReservationSeat::getSeatNumber)
-                .map(Integer::valueOf)
                 .collect(Collectors.toSet());
 
-        // 열차 유형의 outletSeatNumbers 필드를 파싱하여 List<Integer>로 변환한다. outletSeatNumbers는 문자열로 저장되어 있으므로 Integer로 변환한다.
+        // 열차 유형에 저장된 콘센트 좌석 문자열을 숫자 목록으로 바꾼다.
         List<Integer> outletSeats = parseOutletSeatNumbers(trainType.getOutletSeatNumbers());
 
         return new ScheduleListResponse.ScheduleResponse(
