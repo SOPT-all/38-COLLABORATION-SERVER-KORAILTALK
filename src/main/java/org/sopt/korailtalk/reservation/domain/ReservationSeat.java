@@ -36,8 +36,8 @@ public class ReservationSeat {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "seat_number", nullable = false, length = 20)
-    private String seatNumber;
+    @Column(name = "seat_number", nullable = false)
+    private Integer seatNumber;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -46,7 +46,7 @@ public class ReservationSeat {
     public ReservationSeat(
             Schedule schedule,
             Long userId,
-            String seatNumber
+            Integer seatNumber
     ) {
         this.schedule = schedule;
         this.userId = userId;
