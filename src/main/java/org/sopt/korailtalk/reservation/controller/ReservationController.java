@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.korailtalk.global.response.SuccessResponse;
 import org.sopt.korailtalk.reservation.dto.request.ReservationCreateRequest;
 import org.sopt.korailtalk.reservation.dto.response.ReservationCreateResponse;
+import org.sopt.korailtalk.reservation.dto.response.ReservationHistoryListResponse;
 import org.sopt.korailtalk.reservation.service.ReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
@@ -44,5 +42,17 @@ public class ReservationController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(SuccessResponse.of("좌석 예약에 성공했습니다.", response));
+    }
+
+    @GetMapping
+    public ResponseEntity<SuccessResponse<ReservationHistoryListResponse>> getReservationHistory(
+            @RequestParam Long userId
+    ) {
+        ReservationHistoryListResponse response =
+                reservationService.getReservationHistory(userId);
+
+        return ResponseEntity.ok(
+                SuccessResponse.of("예매 내역 조회에 성공했습니다.", response)
+        );
     }
 }
