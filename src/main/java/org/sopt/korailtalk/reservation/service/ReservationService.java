@@ -6,6 +6,8 @@ import org.sopt.korailtalk.global.exception.ErrorCode;
 import org.sopt.korailtalk.reservation.domain.ReservationSeat;
 import org.sopt.korailtalk.reservation.dto.request.ReservationCreateRequest;
 import org.sopt.korailtalk.reservation.dto.response.ReservationCreateResponse;
+import org.sopt.korailtalk.reservation.dto.response.ReservationHistoryListResponse;
+import org.sopt.korailtalk.reservation.dto.response.ReservationHistoryResponse;
 import org.sopt.korailtalk.reservation.repository.ReservationSeatRepository;
 import org.sopt.korailtalk.schedule.domain.Schedule;
 import org.sopt.korailtalk.schedule.repository.ScheduleRepository;
@@ -13,9 +15,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,5 +69,44 @@ public class ReservationService {
         if (hasAlreadyReservedSeat) {
             throw new BusinessException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ReservationHistoryListResponse getReservationHistory(Long userId) {
+        List<ReservationSeat> reservationSeats = reservationSeatRepository.findReservationSeatsByUserId(userId);
+
+        Map<Long, List<ReservationSeat>> groupedReservations = reservationSeats
+                .stream()
+                .collect(Collectors.groupingBy(
+                        reservationSeat -> reservationSeat.getSchedule().getId()
+                ));
+
+        List<ReservationHistoryResponse> reservations = new ArrayList<>();
+
+        for (List<ReservationSeat> reservationGroup : groupedReservations.values()) {
+            ReservationSeat firstReservation = reservationGroup.getFirst();
+            Schedule schedule = firstReservation.getSchedule();
+
+            List<Integer> seatNumbers = reservationGroup.stream()
+                    .map(ReservationSeat::getSeatNumber)
+                    .sorted()
+                    .toList();
+
+            int totalPrice = seatNumbers.size() * schedule.getTrainType().getGeneralPrice();
+
+            ReservationHistoryResponse response = new ReservationHistoryResponse(
+                    schedule.getId(),
+                    schedule.getTrainType().getTrainName(),
+                    schedule.getTrainType().getTrainName(),
+                    schedule.getDepartureTime(),
+                    schedule.getArrivalTime(),
+                    seatNumbers,
+                    totalPrice
+            );
+
+            reservations.add(response);
+        }
+
+        return new ReservationHistoryListResponse(reservations);
     }
 }
