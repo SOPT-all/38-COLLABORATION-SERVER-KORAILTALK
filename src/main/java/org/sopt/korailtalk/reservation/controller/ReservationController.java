@@ -2,6 +2,7 @@ package org.sopt.korailtalk.reservation.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,15 @@ public class ReservationController {
                 .body(SuccessResponse.of("좌석 예약에 성공했습니다.", response));
     }
 
+    @Operation(summary = "예매 내역 조회 API", description = "사용자의 예매 내역을 조회합니다.")
+
+    @ApiResponses({
+
+            @ApiResponse(responseCode = "200", description = "예매 내역 조회 성공"),
+
+            @ApiResponse(responseCode = "400", description = "잘못된 요청 값")
+
+    })
     @GetMapping
     public ResponseEntity<SuccessResponse<ReservationHistoryListResponse>> getReservationHistory(
             @RequestParam Long userId
