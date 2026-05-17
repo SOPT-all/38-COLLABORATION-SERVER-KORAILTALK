@@ -48,15 +48,12 @@ public class ReservationController {
     @Operation(summary = "예매 내역 조회 API", description = "사용자의 예매 내역을 조회합니다.")
 
     @ApiResponses({
-
             @ApiResponse(responseCode = "200", description = "예매 내역 조회 성공"),
-
             @ApiResponse(responseCode = "400", description = "잘못된 요청 값")
-
     })
-    @GetMapping
+    @GetMapping("/users/{userId}/reservations")
     public ResponseEntity<SuccessResponse<ReservationHistoryListResponse>> getReservationHistory(
-            @RequestParam Long userId
+            @PathVariable Long userId
     ) {
         ReservationHistoryListResponse response =
                 reservationService.getReservationHistory(userId);
