@@ -97,7 +97,7 @@ public class ReservationService {
             ReservationHistoryResponse response = new ReservationHistoryResponse(
                     schedule.getId(),
                     schedule.getTrainType().getTrainName(),
-                    schedule.getTrainType().getTrainName(),
+                    schedule.getTrainName(),
                     schedule.getDepartureTime(),
                     schedule.getArrivalTime(),
                     seatNumbers,
