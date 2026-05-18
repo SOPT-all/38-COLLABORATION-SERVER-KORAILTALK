@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class ScheduleService {
 
     // 최대 좌석 수
-    private static final int MAX_SEAT_COUNT = 32;
+    private static final int MAX_SEAT_COUNT = 72;
 
     private final ScheduleRepository scheduleRepository;
     private final ReservationSeatRepository reservationSeatRepository;
