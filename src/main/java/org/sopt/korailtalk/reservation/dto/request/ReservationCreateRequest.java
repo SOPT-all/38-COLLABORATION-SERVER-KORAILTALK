@@ -27,6 +27,6 @@ public record ReservationCreateRequest(
         @UniqueElements(message = "좌석 번호는 중복될 수 없습니다.")
         List<@NotNull(message = "좌석 번호는 필수입니다.")
                 @Min(value = 1, message = "좌석 번호는 1 이상이어야 합니다.")
-                @Max(value = 32, message = "좌석 번호는 32 이하여야 합니다.") Integer> seatNumbers
+                @Max(value = 72, message = "좌석 번호는 72 이하여야 합니다.") Integer> seatNumbers
 ) {
 }
