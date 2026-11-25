@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" version="32.7.4">
+  <diagram id="시스템" name="시스템">
+    <mxGraphModel page="1" pageWidth="640" pageHeight="486" grid="1" gridSize="10" connect="1" arrows="1" fold="1" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bounds" value="" style="shape=rectangle;fillColor=#FFFFFF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="640" height="486" as="geometry" />
+        </mxCell>
+        <mxCell id="decor1" value="01  /  듀레일 시스템 구조" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=13;fontColor=#14679D;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="17" width="592" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="decor2" value="좌석 조회와 예약 저장의 책임" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=27;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="41" width="592" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="client" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="175" y="91" width="290" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="decor3" value="" style="ellipse;fillColor=#E9F6EF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="184" y="104.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor4" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23087D68%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%2211%22%20y%3D%226%22%20width%3D%2226%22%20height%3D%2230%22%20rx%3D%226%22%2F%3E%3Cpath%20d%3D%22M12%2021h24m-19%209h2m10%200h2m-14%206-5%206m19-6%205%206%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="188.08" y="108.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor5" value="듀레일 iOS 앱" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="225" y="98" width="236" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor6" value="열차·좌석 조회 · 예매" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="225" y="120" width="236" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="spring" value="" style="rounded=1;arcSize=6;strokeWidth=1.4;strokeColor=#14679D;fillColor=#EDF6FC;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="194" width="600" height="183" as="geometry" />
+        </mxCell>
+        <mxCell id="decor7" value="Spring Boot  ·  Java 21" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=18;fontColor=#14679D;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="32" y="202" width="576" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="175" y="226" width="290" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="decor8" value="" style="ellipse;fillColor=#EDF6FC;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="184" y="238.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor9" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2314679D%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%225%22%20y%3D%229%22%20width%3D%2238%22%20height%3D%2230%22%20rx%3D%224%22%2F%3E%3Cpath%20d%3D%22m11%2017%207%207-7%207m12%200h12%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="188.08" y="242.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor10" value="REST API" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="225" y="233" width="236" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor11" value="Controller · 공통 응답" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="225" y="255" width="236" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="read" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="35" y="309" width="239" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="decor12" value="" style="ellipse;fillColor=#EDF6FC;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="44" y="322.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor13" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2314679D%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2212%22%2F%3E%3Cpath%20d%3D%22m29%2029%2010%2010%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="48.08" y="326.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor14" value="열차·좌석 조회" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="316" width="185" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor15" value="콘센트 좌석 매진 계산" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="85" y="338" width="185" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="write" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="365" y="309" width="239" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="decor16" value="" style="ellipse;fillColor=#E9F6EF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="374" y="322.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor17" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23087D68%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2012h21M19%2024h21M19%2036h21M8%2012h2m-2%2012h2m-2%2012h2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="378.08" y="326.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor18" value="예약 생성·조회" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="415" y="316" width="185" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor19" value="좌석 저장 · 예매 내역" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="415" y="338" width="185" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="175" y="411" width="290" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="decor20" value="" style="ellipse;fillColor=#E9F6EF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="184" y="425.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor21" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23087D68%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cellipse%20cx%3D%2224%22%20cy%3D%2211%22%20rx%3D%2215%22%20ry%3D%226%22%2F%3E%3Cpath%20d%3D%22M9%2011v24c0%208%2030%208%2030%200V11M9%2023c0%208%2030%208%2030%200%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="188.08" y="429.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor22" value="MySQL" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="225" y="418" width="236" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor23" value="일정·좌석 유형·예약" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="225" y="440" width="236" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="decor24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#14679D;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="client" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decor25" value="HTTP · JSON" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#14679D;fontStyle=1;fillColor=#FFFFFF;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="206" y="161" width="105" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="decor26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#14679D;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.17;exitY=1;entryX=0.65;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="api" target="read">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="224" y="296" />
+              <mxPoint x="190" y="296" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="decor27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#087D68;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.83;exitY=1;entryX=0.33;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="api" target="write">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="416" y="295" />
+              <mxPoint x="444" y="295" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="decor28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#14679D;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.5;exitY=1;entryX=0.18;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="read" target="db">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="155" y="394" />
+              <mxPoint x="227" y="394" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="decor29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#087D68;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.5;exitY=1;entryX=0.81;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="write" target="db">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="485" y="394" />
+              <mxPoint x="410" y="394" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
