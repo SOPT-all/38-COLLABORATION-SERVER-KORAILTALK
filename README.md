@@ -1,6 +1,8 @@
 # 38-COLLABORATION-SERVER-KORAILTALK
 LET'S SOPT 38기 합동세미나 서버 코레일톡 🚅
 
+[듀레일 프로젝트 소개와 시연](docs/portfolio-readme/README.md)
+
 ## 로컬 더미데이터 초기화
 
 로컬 MySQL을 Google Sheet 기준 seed 상태로 초기화할 때 사용합니다.
