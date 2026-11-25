@@ -1,2 +1,138 @@
 <?xml version='1.0' encoding='utf-8'?>
-<mxfile host="app.diagrams.net"><diagram id="korail-reservation" name="듀레일 | 좌석 예약과 중복 방지"><mxGraphModel page="1" pageWidth="810" pageHeight="355" grid="0"><root><mxCell id="0" /><mxCell id="1" parent="0" /><mxCell id="bg" parent="1" value="" style="rounded=1;arcSize=9;fillColor=#FAFCFF;strokeColor=#CCD9E8;locked=1;" vertex="1"><mxGeometry as="geometry" x="0" y="0" width="810" height="355" /></mxCell><mxCell id="title" parent="1" value="듀레일 | 좌석 예약과 중복 방지" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=26;fontStyle=1;fontColor=#15283F;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="20" y="12" width="770" height="34" /></mxCell><mxCell id="sub" parent="1" value="좌석표는 안내이고, 최종 예약은 저장 시점에 결정됩니다." style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontStyle=0;fontColor=#4D617B;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="21" y="45" width="768" height="30" /></mxCell><mxCell id="tx" parent="1" value="Spring 트랜잭션" style="rounded=1;arcSize=12;dashed=1;fillColor=#EAF3FF;strokeColor=#CCD9E8;fontColor=#4D617B;align=left;verticalAlign=top;spacingLeft=14;spacingTop=7;fontSize=15;fontStyle=1;" vertex="1"><mxGeometry as="geometry" x="213" y="103" width="574" height="111" /></mxCell><mxCell id="edge0" parent="1" source="pick" target="ask" value="" edge="1" style="edgeStyle=segmentEdgeStyle;endArrow=block;endFill=1;rounded=1;strokeWidth=1.7;strokeColor=#627E9C;dashed=0;exitX=1.0000;exitY=0.4727;entryX=0.0000;entryY=0.4727;exitPerimeter=0;entryPerimeter=0;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="l0" parent="1" value="POST" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=12;fontStyle=1;fontColor=#627E9C;strokeColor=none;fillColor=none;labelBackgroundColor=#FAFCFF;" vertex="1"><mxGeometry as="geometry" x="157" y="143" width="90" height="18" /></mxCell><mxCell id="edge1" parent="1" source="ask" target="save" value="" edge="1" style="edgeStyle=segmentEdgeStyle;endArrow=block;endFill=1;rounded=1;strokeWidth=1.7;strokeColor=#627E9C;dashed=0;exitX=1.0000;exitY=0.4727;entryX=0.0000;entryY=0.4727;exitPerimeter=0;entryPerimeter=0;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="edge2" parent="1" source="save" target="ok" value="" edge="1" style="edgeStyle=segmentEdgeStyle;endArrow=block;endFill=1;rounded=1;strokeWidth=1.7;strokeColor=#627E9C;dashed=0;exitX=1.0000;exitY=0.4727;entryX=0.0000;entryY=0.4727;exitPerimeter=0;entryPerimeter=0;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="edge3" parent="1" source="ask" target="fail" value="" edge="1" style="edgeStyle=segmentEdgeStyle;endArrow=block;endFill=1;rounded=1;strokeWidth=1.7;strokeColor=#B53450;dashed=1;exitX=0.4699;exitY=1.0000;entryX=0.0000;entryY=0.5455;exitPerimeter=0;entryPerimeter=0;"><mxGeometry as="geometry" relative="1"><Array as="points"><mxPoint x="312" y="290" /></Array></mxGeometry></mxCell><mxCell id="l3" parent="1" value="이미 잡힌 좌석" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=12;fontStyle=1;fontColor=#B53450;strokeColor=none;fillColor=none;labelBackgroundColor=#FAFCFF;" vertex="1"><mxGeometry as="geometry" x="344" y="266" width="90" height="18" /></mxCell><mxCell id="edge4" parent="1" source="save" target="fail" value="" edge="1" style="edgeStyle=segmentEdgeStyle;endArrow=block;endFill=1;rounded=1;strokeWidth=1.7;strokeColor=#B53450;dashed=1;exitX=0.4964;exitY=1.0000;entryX=0.1754;entryY=0.0000;exitPerimeter=0;entryPerimeter=0;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="l4" parent="1" value="DB UNIQUE 충돌" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=12;fontStyle=1;fontColor=#B53450;strokeColor=none;fillColor=none;labelBackgroundColor=#FAFCFF;" vertex="1"><mxGeometry as="geometry" x="564" y="229" width="90" height="18" /></mxCell><mxCell id="pick" parent="1" value="" style="rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#2564BF;strokeWidth=1.2;" vertex="1"><mxGeometry as="geometry" x="20" y="142" width="150" height="55" /></mxCell><mxCell id="pickicon" parent="pick" value="" style="shape=image;imageAspect=0;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%232564BF%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%226%22%20y%3D%222%22%20width%3D%2212%22%20height%3D%2220%22%20rx%3D%223%22%2F%3E%3Cpath%20d%3D%22M10%2018h4M11%205h2%22%2F%3E%3C%2Fsvg%3E;" vertex="1"><mxGeometry as="geometry" x="13" y="15" width="24" height="24" /></mxCell><mxCell id="pickt" parent="pick" value="좌석 선택" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontStyle=1;fontColor=#15283F;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="43" y="5" width="97" height="26" /></mxCell><mxCell id="pickd" parent="pick" value="앱의 좌석 조회 결과" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=12;fontStyle=0;fontColor=#4D617B;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="43" y="28" width="97" height="20" /></mxCell><mxCell id="ask" parent="1" value="" style="rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#174A91;strokeWidth=1.2;" vertex="1"><mxGeometry as="geometry" x="234" y="142" width="166" height="55" /></mxCell><mxCell id="askicon" parent="ask" value="" style="shape=image;imageAspect=0;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23174A91%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m8%206-5%206%205%206m8-12%205%206-5%206m-2-14-4%2016%22%2F%3E%3C%2Fsvg%3E;" vertex="1"><mxGeometry as="geometry" x="13" y="15" width="24" height="24" /></mxCell><mxCell id="askt" parent="ask" value="요청 확인" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontStyle=1;fontColor=#15283F;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="43" y="5" width="113" height="26" /></mxCell><mxCell id="askd" parent="ask" value="일정 · 선점 여부" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=12;fontStyle=0;fontColor=#4D617B;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="43" y="28" width="113" height="20" /></mxCell><mxCell id="save" parent="1" value="" style="rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#A76019;strokeWidth=1.2;" vertex="1"><mxGeometry as="geometry" x="463" y="142" width="137" height="55" /></mxCell><mxCell id="saveicon" parent="save" value="" style="shape=image;imageAspect=0;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23A76019%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cellipse%20cx%3D%2212%22%20cy%3D%225.5%22%20rx%3D%228%22%20ry%3D%223.5%22%2F%3E%3Cpath%20d%3D%22M4%206v12c0%202%204%203%208%203s8-1%208-3V6M4%2012c0%202%204%203%208%203s8-1%208-3%22%2F%3E%3C%2Fsvg%3E;" vertex="1"><mxGeometry as="geometry" x="9" y="15" width="24" height="24" /></mxCell><mxCell id="savet" parent="save" value="저장·flush" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontStyle=1;fontColor=#15283F;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="39" y="5" width="88" height="26" /></mxCell><mxCell id="saved" parent="save" value="DB 제약 확인" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=10;fontStyle=0;fontColor=#4D617B;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="39" y="28" width="88" height="20" /></mxCell><mxCell id="ok" parent="1" value="" style="rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#147666;strokeWidth=1.2;" vertex="1"><mxGeometry as="geometry" x="654" y="142" width="112" height="55" /></mxCell><mxCell id="okicon" parent="ok" value="" style="shape=image;imageAspect=0;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23147666%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m4%2012%205%205L20%206%22%2F%3E%3C%2Fsvg%3E;" vertex="1"><mxGeometry as="geometry" x="9" y="15" width="24" height="24" /></mxCell><mxCell id="okt" parent="ok" value="성공" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontStyle=1;fontColor=#15283F;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="39" y="5" width="63" height="26" /></mxCell><mxCell id="okd" parent="ok" value="좌석 번호 반환" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=10;fontStyle=0;fontColor=#4D617B;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="39" y="28" width="63" height="20" /></mxCell><mxCell id="fail" parent="1" value="" style="rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#B53450;strokeWidth=1.2;" vertex="1"><mxGeometry as="geometry" x="481" y="260" width="285" height="55" /></mxCell><mxCell id="failicon" parent="fail" value="" style="shape=image;imageAspect=0;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23B53450%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%207v6m0%204h.01M10%203.5%202.5%2017a2%202%200%200%200%202%203h15a2%202%200%200%200%202-3L14%203.5a2.3%202.3%200%200%200-4%200Z%22%2F%3E%3C%2Fsvg%3E;" vertex="1"><mxGeometry as="geometry" x="13" y="15" width="24" height="24" /></mxCell><mxCell id="failt" parent="fail" value="409 · 좌석 충돌" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontStyle=1;fontColor=#15283F;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="43" y="5" width="232" height="26" /></mxCell><mxCell id="faild" parent="fail" value="요청한 좌석 전체 미반영" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=12;fontStyle=0;fontColor=#4D617B;strokeColor=none;fillColor=none;" vertex="1"><mxGeometry as="geometry" x="43" y="28" width="232" height="20" /></mxCell></root></mxGraphModel></diagram></mxfile>
+<mxfile host="app.diagrams.net" version="32.7.4">
+  <diagram id="좌석 예약" name="좌석 예약">
+    <mxGraphModel page="1" pageWidth="640" pageHeight="559" grid="1" gridSize="10" connect="1" arrows="1" fold="1" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bounds" value="" style="shape=rectangle;fillColor=#FFFFFF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="640" height="559" as="geometry" />
+        </mxCell>
+        <mxCell id="decor1" value="03  /  듀레일 좌석 예약" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=13;fontColor=#14679D;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="17" width="592" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="decor2" value="좌석 예약은 저장 시점에 결정" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=27;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="41" width="592" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="client" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="47" y="93" width="310" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="decor3" value="" style="ellipse;fillColor=#EDF6FC;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="56" y="106.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor4" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2314679D%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%2211%22%20y%3D%226%22%20width%3D%2226%22%20height%3D%2230%22%20rx%3D%226%22%2F%3E%3Cpath%20d%3D%22M12%2021h24m-19%209h2m10%200h2m-14%206-5%206m19-6%205%206%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="60.08" y="110.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor5" value="iOS에서 좌석 선택" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="100" width="256" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor6" value="좌석표는 조회 시점의 상태" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="122" width="256" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="tx" value="" style="rounded=1;arcSize=6;strokeWidth=1.4;strokeColor=#14679D;fillColor=#EDF6FC;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="190" width="361" height="259" as="geometry" />
+        </mxCell>
+        <mxCell id="decor7" value="Spring 트랜잭션" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=18;fontColor=#14679D;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="32" y="198" width="337" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="check" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="47" y="233" width="310" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="decor8" value="" style="ellipse;fillColor=#EDF6FC;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="56" y="248.5" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor9" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2314679D%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2212%22%2F%3E%3Cpath%20d%3D%22m29%2029%2010%2010%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="60.08" y="252.58" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor10" value="일정과 선점 여부 확인" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="240" width="256" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor11" value="이미 잡힌 좌석은 거절" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="262" width="256" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="save" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="47" y="351" width="310" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="decor12" value="" style="ellipse;fillColor=#E9F6EF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="56" y="366.5" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor13" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23087D68%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cellipse%20cx%3D%2224%22%20cy%3D%2211%22%20rx%3D%2215%22%20ry%3D%226%22%2F%3E%3Cpath%20d%3D%22M9%2011v24c0%208%2030%208%2030%200V11M9%2023c0%208%2030%208%2030%200%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="60.08" y="370.58" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor14" value="예약 일괄 저장 · flush" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="358" width="256" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor15" value="일정 + 좌석 번호 유일 제약" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="380" width="256" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="conflict" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="422" y="285" width="199" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor16" value="" style="ellipse;fillColor=#FCEFF3;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="431" y="310.0" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor17" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23A12849%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M25%204%2012%2027h12l-2%2017%2014-24H24z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="435.08" y="314.08" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor18" value="409  좌석 충돌" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="472" y="292" width="145" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor19" value="선택 좌석 전체 미반영" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="472" y="314" width="145" height="51" as="geometry" />
+        </mxCell>
+        <mxCell id="done" value="" style="rounded=1;arcSize=10;fillColor=#FFFFFF;strokeColor=#D4DFE7;strokeWidth=1.1;" vertex="1" parent="1">
+          <mxGeometry x="47" y="478" width="310" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="decor20" value="" style="ellipse;fillColor=#E9F6EF;strokeColor=none;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="56" y="492.5" width="34" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="decor21" value="" style="shape=image;imageAspect=1;aspect=fixed;image=data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23087D68%22%20stroke-width%3D%222.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m10%2024%2010%2010%2018-20%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="60.08" y="496.58" width="25.84" height="25.84" as="geometry" />
+        </mxCell>
+        <mxCell id="decor22" value="예약 성공" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=17;fontColor=#172D44;fontStyle=1;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="485" width="256" height="23" as="geometry" />
+        </mxCell>
+        <mxCell id="decor23" value="트랜잭션 완료 후 응답" style="text;html=0;align=left;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#50657B;fontStyle=0;fillColor=none;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="97" y="507" width="256" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="decor24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#14679D;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="client" target="check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decor25" value="POST" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#14679D;fontStyle=1;fillColor=#FFFFFF;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="212" y="159" width="90" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="decor26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#54758F;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="check" target="save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decor27" value="예약 가능" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#14679D;fontStyle=1;fillColor=#EDF6FC;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="211" y="312" width="102" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="decor28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#087D68;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=0;dashPattern=5 5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="save" target="done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decor29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#A12849;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=1;dashPattern=5 5;exitX=1;exitY=0.5;entryX=0;entryY=0.24;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="check" target="conflict">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="397" y="265" />
+              <mxPoint x="397" y="305" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="decor30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;strokeColor=#A12849;strokeWidth=2;endArrow=block;endFill=1;endSize=8;dashed=1;dashPattern=5 5;exitX=1;exitY=0.5;entryX=0;entryY=0.75;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="save" target="conflict">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="397" y="383" />
+              <mxPoint x="397" y="348" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="decor31" value="기존 예약" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#A12849;fontStyle=1;fillColor=#FFFFFF;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="425" y="250" width="129" height="21" as="geometry" />
+        </mxCell>
+        <mxCell id="decor32" value="UNIQUE 충돌" style="text;html=0;align=center;verticalAlign=middle;spacing=0;fontFamily=Apple SD Gothic Neo;fontSize=15;fontColor=#A12849;fontStyle=1;fillColor=#FFFFFF;strokeColor=none;whiteSpace=wrap;overflow=visible;connectable=0;" vertex="1" parent="1">
+          <mxGeometry x="425" y="383" width="150" height="21" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
